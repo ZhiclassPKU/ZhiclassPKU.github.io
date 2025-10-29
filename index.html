@@ -73,6 +73,28 @@
     .member:hover {
         background: rgba(255,255,255,0.08);
     }
+    .dropdown-btn {
+        padding: 10px 15px;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        background: #1f78ff;
+        color: white;
+        transition: 0.2s ease;
+    }
+    .dropdown-btn:hover {
+        background: #145ad1;
+    }
+    .dropdown-content {
+        display: none;
+        margin-top: 10px;
+    }
+    .card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
 
 </style>
 </head>
@@ -135,7 +157,31 @@
             时间：持续更新
         </div>
     </div>
-
+    <div class="section">
+        <h2>📦 Past Problems Archive</h2>
+    
+        <button class="dropdown-btn">👉 Show / Hide Archives</button>
+    
+        <div class="dropdown-content">
+    
+            <a href="https://github.com/ZhiclassPKU/2024" target="_blank" class="card">
+                <div class="paper-title">📁 2024</div>
+                <div class="paper-meta">All problem sets & solutions</div>
+            </a>
+    
+            <a href="https://github.com/ZhiclassPKU/2023" target="_blank" class="card">
+                <div class="paper-title">📁 2023</div>
+                <div class="paper-meta">Exam + Homework + Challenges</div>
+            </a>
+    
+            <a href="https://github.com/ZhiclassPKU/2022" target="_blank" class="card">
+                <div class="paper-title">📁 2022</div>
+                <div class="paper-meta">Including answers</div>
+            </a>
+    
+            <!-- 可继续添加更多年份：复制上方结构即可 -->
+        </div>
+    </div>
 </div>
 
 <!-- 右侧侧栏区域 -->
@@ -157,6 +203,13 @@
     <div class="card">2024.12：新生加入智班大家庭</div>
 
 </div>
+<script>
+    const btn = document.querySelector('.dropdown-btn');
+    const box = document.querySelector('.dropdown-content');
 
+    btn.addEventListener('click', () => {
+        box.style.display = (box.style.display === "block" ? "none" : "block");
+    });
+</script>
 </body>
 </html>
