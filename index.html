@@ -246,28 +246,5 @@ fetch("https://api.github.com/orgs/ZhiclassPKU/members")
     console.error(err);
   });
 </script>
-<script>
-fetch("https://api.github.com/orgs/ZhiclassPKU/members")
-  .then(response => response.json())
-  .then(members => {
-    const list = document.getElementById("member-list");
-    list.innerHTML = ""; 
-
-    members.forEach(member => {
-      const el = document.createElement("div");
-      el.className = "member-card";
-      el.innerHTML = `
-        <img src="${member.avatar_url}" class="avatar">
-        <a href="${member.html_url}" target="_blank">${member.login}</a>
-      `;
-      list.appendChild(el);
-    });
-  })
-  .catch(err => {
-    document.getElementById("member-list").innerHTML =
-      "⚠️ Failed to load members.";
-    console.error(err);
-  });
-</script>
 </body>
 </html>
