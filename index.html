@@ -45,6 +45,15 @@
         border-radius: 8px;
         margin: 12px 0;
         transition: 0.25s;
+        display: block;
+        text-decoration: none;  
+        color: inherit;         
+        outline: none;         
+    }
+    .card:focus,
+    .card:active {
+        outline: none;
+        text-decoration: none;
     }
     .card:hover {
         border-color: #3a82ff;
@@ -94,6 +103,19 @@
         display: block;
         text-decoration: none;
         color: inherit;
+    }
+   .avatar {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+    .member {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 8px 0;
     }
 
 </style>
@@ -188,12 +210,7 @@
 <div class="sidebar">
 
     <h2>👤 成员 / Members</h2>
-
-    <div class="member">Alice Chen — AI + CV</div>
-    <div class="member">Bob Li — LLM / NLP</div>
-    <div class="member">Cathy Wang — Robotics</div>
-    <div class="member">David Zhao — Systems</div>
-    <!-- 继续添加 -->
+    <div id="member-list">Loading members...</div>
 
     <br><br>
     <h2>🆕 最近更新 / Updates</h2>
@@ -203,13 +220,54 @@
     <div class="card">2024.12：新生加入智班大家庭</div>
 
 </div>
-<script>
-    const btn = document.querySelector('.dropdown-btn');
-    const box = document.querySelector('.dropdown-content');
 
-    btn.addEventListener('click', () => {
-        box.style.display = (box.style.display === "block" ? "none" : "block");
+<script>
+fetch("https://api.github.com/orgs/ZhiclassPKU/members")
+  .then(res => res.json())
+  .then(members => {
+    const list = document.getElementById("member-list");
+    list.innerHTML = "";
+
+    members.forEach(m => {
+      const div = document.createElement("div");
+      div.className = "member";
+      div.innerHTML = `
+        <img src="${m.avatar_url}" class="avatar">
+        <a href="${m.html_url}" target="_blank" style="color:#d5e5ff;text-decoration:none;">
+          ${m.login}
+        </a>
+      `;
+      list.appendChild(div);
     });
+  })
+  .catch(err => {
+    document.getElementById("member-list").innerHTML =
+      "⚠️ 无法加载 GitHub 成员";
+    console.error(err);
+  });
+</script>
+<script>
+fetch("https://api.github.com/orgs/ZhiclassPKU/members")
+  .then(response => response.json())
+  .then(members => {
+    const list = document.getElementById("member-list");
+    list.innerHTML = ""; 
+
+    members.forEach(member => {
+      const el = document.createElement("div");
+      el.className = "member-card";
+      el.innerHTML = `
+        <img src="${member.avatar_url}" class="avatar">
+        <a href="${member.html_url}" target="_blank">${member.login}</a>
+      `;
+      list.appendChild(el);
+    });
+  })
+  .catch(err => {
+    document.getElementById("member-list").innerHTML =
+      "⚠️ Failed to load members.";
+    console.error(err);
+  });
 </script>
 </body>
 </html>
