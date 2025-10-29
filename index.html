@@ -12,12 +12,14 @@
         background: #0a0f1f;
         color: #d5e5ff;
         display: flex;
+        overflow-x: hidden;
     }
 
     /* 左侧主内容区 */
     .main {
         width: 70%;
         padding: 40px;
+        animation: fadeIn 0.8s ease;
     }
 
     /* 右侧侧边栏 */
@@ -26,6 +28,7 @@
         background: #0f1a35;
         padding: 40px 30px;
         border-left: 1px solid #1d2c51;
+        animation: fadeIn 1s ease;
     }
 
     h1, h2, h3 {
@@ -37,7 +40,7 @@
         margin-bottom: 50px;
     }
 
-    /* 卡片样式 */
+    /* 卡片样式 + 动画 */
     .card {
         background: #111b34;
         border: 1px solid #1f315c;
@@ -46,21 +49,19 @@
         margin: 12px 0;
         transition: 0.25s;
         display: block;
-        text-decoration: none;  
-        color: inherit;         
-        outline: none;         
-    }
-    .card:focus,
-    .card:active {
-        outline: none;
         text-decoration: none;
+        color: inherit;
+        transform: translateY(0);
+        opacity: 0;
+        animation: slideUp 0.6s ease forwards;
     }
+
     .card:hover {
         border-color: #3a82ff;
         transform: translateY(-4px);
     }
 
-    /* Paper 列表 */
+    /* Paper 样式 */
     .paper-title {
         font-size: 1.1rem;
         color: #d0e3ff;
@@ -73,15 +74,28 @@
 
     /* 成员列表 */
     .member {
-        margin: 10px 0;
-        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 8px 0;
         background: rgba(255,255,255,0.03);
+        padding: 6px 10px;
         border-radius: 6px;
         transition: .2s;
+        opacity: 0;
+        animation: fadeIn 0.5s ease forwards;
     }
     .member:hover {
-        background: rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.12);
     }
+
+    .avatar {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+    }
+
+    /* Past Problems 下拉动画 */
     .dropdown-btn {
         padding: 10px 15px;
         font-size: 1rem;
@@ -95,29 +109,28 @@
     .dropdown-btn:hover {
         background: #145ad1;
     }
+
     .dropdown-content {
-        display: none;
-        margin-top: 10px;
-    }
-    .card {
-        display: block;
-        text-decoration: none;
-        color: inherit;
-    }
-   .avatar {
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        margin-right: 8px;
-        vertical-align: middle;
-    }
-    .member {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin: 8px 0;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: 0.4s ease;
     }
 
+    .dropdown-content.show {
+        max-height: 600px;
+        opacity: 1;
+    }
+
+    /* --- 动画关键帧 --- */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 </style>
 </head>
 
@@ -138,75 +151,69 @@
     <!-- Paper 展示 -->
     <div class="section">
         <h2>📄 Zhiclass Students' Papers</h2>
-    
-        <a href="https://arxiv.org/abs/1234.5678" target="_blank" class="card">
+
+        <a href="#" class="card">
             <div class="paper-title">Neural Atlas for 3D Reconstruction</div>
             <div class="paper-meta">Chen XX, Li XX — CVPR 2024</div>
         </a>
-    
-        <a href="https://arxiv.org/abs/9999.8888" target="_blank" class="card">
+
+        <a href="#" class="card">
             <div class="paper-title">Large Language Models in Education</div>
             <div class="paper-meta">Wang XX, Zhao XX — NeurIPS 2024</div>
         </a>
-    
-        <a href="https://arxiv.org/abs/7777.6666" target="_blank" class="card">
+
+        <a href="#" class="card">
             <div class="paper-title">Diffusion Models for Video Generation</div>
             <div class="paper-meta">Zhang XX, Liu XX — ICCV 2025</div>
         </a>
-    
-        <!-- 继续加更多论文，只需复制上面结构即可 -->
     </div>
 
-    <!-- 活动展示 -->
+    <!-- 活动 -->
     <div class="section">
         <h2>🔥 活动 / Events</h2>
 
         <div class="card">
             <b>AI & ML Seminar</b><br>
-            智班同学每周进行学术报告与论文分享  
-            时间：每周三 19:00 @ 理科楼
+            每周三 19:00 @ 理科楼 — 论文分享与学术研讨
         </div>
 
         <div class="card">
             <b>Hackathon</b><br>
-            智班内部 24 小时编码挑战，创新项目展示  
-            时间：5 月
+            智班内部 24 小时编程挑战与创新展示
         </div>
 
         <div class="card">
             <b>Industry Talks</b><br>
-            邀请行业研究者分享技术前沿  
-            时间：持续更新
+            邀请业界研究者分享技术前沿
         </div>
     </div>
+
+    <!-- 往年题 -->
     <div class="section">
         <h2>📦 Past Problems Archive</h2>
-    
-        <button class="dropdown-btn">👉 Show / Hide Archives</button>
-    
-        <div class="dropdown-content">
-    
+
+        <button class="dropdown-btn" onclick="toggleArchive()">👉 Show / Hide Archives</button>
+
+        <div class="dropdown-content" id="archive-box">
             <a href="https://github.com/ZhiclassPKU/2024" target="_blank" class="card">
                 <div class="paper-title">📁 2024</div>
-                <div class="paper-meta">All problem sets & solutions</div>
+                <div class="paper-meta">Problem sets & solutions</div>
             </a>
-    
+
             <a href="https://github.com/ZhiclassPKU/2023" target="_blank" class="card">
                 <div class="paper-title">📁 2023</div>
-                <div class="paper-meta">Exam + Homework + Challenges</div>
+                <div class="paper-meta">Exams & Homework</div>
             </a>
-    
+
             <a href="https://github.com/ZhiclassPKU/2022" target="_blank" class="card">
                 <div class="paper-title">📁 2022</div>
-                <div class="paper-meta">Including answers</div>
+                <div class="paper-meta">With solutions included</div>
             </a>
-    
-            <!-- 可继续添加更多年份：复制上方结构即可 -->
         </div>
     </div>
 </div>
 
-<!-- 右侧侧栏区域 -->
+<!-- 右侧侧栏 -->
 <div class="sidebar">
 
     <h2>👤 成员 / Members</h2>
@@ -215,22 +222,24 @@
     <br><br>
     <h2>🆕 最近更新 / Updates</h2>
 
-    <div class="card">2025.02：2 篇 Paper 接收 CVPR 🎉</div>
-    <div class="card">2025.01：智班冬令营顺利举办</div>
-    <div class="card">2024.12：新生加入智班大家庭</div>
+    <div class="card">✅ 2025.02：2 篇 Paper 接收 CVPR</div>
+    <div class="card">✅ 2025.01：智班冬令营顺利举办</div>
+    <div class="card">✅ 2024.12：欢迎新同学加入智班</div>
 
 </div>
 
 <script>
+/* ✅ GitHub 组织成员自动加载 */
 fetch("https://api.github.com/orgs/ZhiclassPKU/members")
   .then(res => res.json())
   .then(members => {
     const list = document.getElementById("member-list");
     list.innerHTML = "";
 
-    members.forEach(m => {
+    members.forEach((m, i) => {
       const div = document.createElement("div");
       div.className = "member";
+      div.style.animationDelay = (i * 0.07) + "s"; // 成员一个个淡入
       div.innerHTML = `
         <img src="${m.avatar_url}" class="avatar">
         <a href="${m.html_url}" target="_blank" style="color:#d5e5ff;text-decoration:none;">
@@ -241,10 +250,15 @@ fetch("https://api.github.com/orgs/ZhiclassPKU/members")
     });
   })
   .catch(err => {
-    document.getElementById("member-list").innerHTML =
-      "⚠️ 无法加载 GitHub 成员";
-    console.error(err);
+    document.getElementById("member-list").innerHTML = "⚠️ 无法加载 GitHub 成员";
   });
+
+/* ✅ 下拉动画 */
+function toggleArchive() {
+    const box = document.getElementById("archive-box");
+    box.classList.toggle("show");
+}
 </script>
+
 </body>
 </html>
