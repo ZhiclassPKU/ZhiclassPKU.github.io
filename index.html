@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zhiclass HQ — 智班主页</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        background: #0a0f1f;
+        color: #d5e5ff;
+        display: flex;
+        overflow-x: hidden;
+    }
+
+    /* 左侧主内容区 */
+    .main {
+        width: 70%;
+        padding: 40px;
+        animation: fadeIn 0.8s ease;
+    }
+
+    /* 右侧侧边栏 */
+    .sidebar {
+        width: 30%;
+        background: #0f1a35;
+        padding: 40px 30px;
+        border-left: 1px solid #1d2c51;
+        animation: fadeIn 1s ease;
+    }
+
+    h1, h2, h3 {
+        font-weight: 600;
+        color: #63a4ff;
+    }
+
+    .section {
+        margin-bottom: 50px;
+    }
+
+    /* 卡片样式 + 动画 */
+    .card {
+        background: #111b34;
+        border: 1px solid #1f315c;
+        padding: 16px 20px;
+        border-radius: 8px;
+        margin: 12px 0;
+        transition: 0.25s;
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        transform: translateY(0);
+        opacity: 0;
+        animation: slideUp 0.6s ease forwards;
+    }
+
+    .card:hover {
+        border-color: #3a82ff;
+        transform: translateY(-4px);
+    }
+
+    /* Paper 样式 */
+    .paper-title {
+        font-size: 1.1rem;
+        color: #d0e3ff;
+        font-weight: bold;
+    }
+    .paper-meta {
+        font-size: 0.85rem;
+        color: #9ab6e4;
+    }
+
+    /* 成员列表 */
+    .member {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 8px 0;
+        background: rgba(255,255,255,0.03);
+        padding: 6px 10px;
+        border-radius: 6px;
+        transition: .2s;
+        opacity: 0;
+        animation: fadeIn 0.5s ease forwards;
+    }
+    .member:hover {
+        background: rgba(255,255,255,0.12);
+    }
+
+    .avatar {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+    }
+
+    /* Past Problems 下拉动画 */
+    .dropdown-btn {
+        padding: 10px 15px;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        background: #1f78ff;
+        color: white;
+        transition: 0.2s ease;
+    }
+    .dropdown-btn:hover {
+        background: #145ad1;
+    }
+
+    .dropdown-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: 0.4s ease;
+    }
+
+    .dropdown-content.show {
+        max-height: 600px;
+        opacity: 1;
+    }
+
+    /* --- 动画关键帧 --- */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- 左侧主区域 -->
+<div class="main">
+
+    <!-- 智班简介 -->
+    <div class="section">
+        <h1>智班（Zhiclass）</h1>
+        <p>
+            北京大学智班（Zhiclass）汇聚全国顶尖的计算机人才，致力于推动人工智能、
+            深度学习、计算机视觉、多模态、软件系统等领域的创新与研究。
+        </p>
+    </div>
+
+    <!-- Paper 展示 -->
+    <div class="section">
+        <h2>📄 Zhiclass Students' Papers</h2>
+
+        <a href="#" class="card">
+            <div class="paper-title">Neural Atlas for 3D Reconstruction</div>
+            <div class="paper-meta">Chen XX, Li XX — CVPR 2024</div>
+        </a>
+
+        <a href="#" class="card">
+            <div class="paper-title">Large Language Models in Education</div>
+            <div class="paper-meta">Wang XX, Zhao XX — NeurIPS 2024</div>
+        </a>
+
+        <a href="#" class="card">
+            <div class="paper-title">Diffusion Models for Video Generation</div>
+            <div class="paper-meta">Zhang XX, Liu XX — ICCV 2025</div>
+        </a>
+    </div>
+
+    <!-- 活动 -->
+    <div class="section">
+        <h2>🔥 活动 / Events</h2>
+
+        <div class="card">
+            <b>AI & ML Seminar</b><br>
+            每周三 19:00 @ 理科楼 — 论文分享与学术研讨
+        </div>
+
+        <div class="card">
+            <b>Hackathon</b><br>
+            智班内部 24 小时编程挑战与创新展示
+        </div>
+
+        <div class="card">
+            <b>Industry Talks</b><br>
+            邀请业界研究者分享技术前沿
+        </div>
+    </div>
+
+    <!-- 往年题 -->
+    <div class="section">
+        <h2>📦 Past Problems Archive</h2>
+
+        <button class="dropdown-btn" onclick="toggleArchive()">👉 Show / Hide Archives</button>
+
+        <div class="dropdown-content" id="archive-box">
+            <a href="https://github.com/ZhiclassPKU/2024" target="_blank" class="card">
+                <div class="paper-title">📁 2024</div>
+                <div class="paper-meta">Problem sets & solutions</div>
+            </a>
+
+            <a href="https://github.com/ZhiclassPKU/2023" target="_blank" class="card">
+                <div class="paper-title">📁 2023</div>
+                <div class="paper-meta">Exams & Homework</div>
+            </a>
+
+            <a href="https://github.com/ZhiclassPKU/2022" target="_blank" class="card">
+                <div class="paper-title">📁 2022</div>
+                <div class="paper-meta">With solutions included</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- 右侧侧栏 -->
+<div class="sidebar">
+
+    <h2>👤 成员 / Members</h2>
+    <div id="member-list">Loading members...</div>
+
+    <br><br>
+    <h2>🆕 最近更新 / Updates</h2>
+
+    <div class="card">✅ 2025.02：2 篇 Paper 接收 CVPR</div>
+    <div class="card">✅ 2025.01：智班冬令营顺利举办</div>
+    <div class="card">✅ 2024.12：欢迎新同学加入智班</div>
+
+</div>
+
+<script>
+/* ✅ GitHub 组织成员自动加载 */
+fetch("https://api.github.com/orgs/ZhiclassPKU/members")
+  .then(res => res.json())
+  .then(members => {
+    const list = document.getElementById("member-list");
+    list.innerHTML = "";
+
+    members.forEach((m, i) => {
+      const div = document.createElement("div");
+      div.className = "member";
+      div.style.animationDelay = (i * 0.07) + "s"; // 成员一个个淡入
+      div.innerHTML = `
+        <img src="${m.avatar_url}" class="avatar">
+        <a href="${m.html_url}" target="_blank" style="color:#d5e5ff;text-decoration:none;">
+          ${m.login}
+        </a>
+      `;
+      list.appendChild(div);
+    });
+  })
+  .catch(err => {
+    document.getElementById("member-list").innerHTML = "⚠️ 无法加载 GitHub 成员";
+  });
+
+/* ✅ 下拉动画 */
+function toggleArchive() {
+    const box = document.getElementById("archive-box");
+    box.classList.toggle("show");
+}
+</script>
+
+</body>
+</html>
